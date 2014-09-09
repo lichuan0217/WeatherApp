@@ -4,17 +4,29 @@
     android:layout_height="match_parent">
 
     <EditTextPreference
-        android:title="@string/pref_location_label"
-        android:key="@string/pref_location_key"
         android:defaultValue="@string/pref_location_default"
         android:inputType="text"
-        android:singleLine="true" />
+        android:key="@string/pref_location_key"
+        android:singleLine="true"
+        android:title="@string/pref_location_label" />
 
     <ListPreference
-        android:title="@string/pref_units_label"
-        android:key="@string/pref_units_key"
         android:defaultValue="@string/pref_units_metric"
+        android:entries="@array/pref_units_options"
         android:entryValues="@array/pref_units_values"
-        android:entries="@array/pref_units_options" />
+        android:key="@string/pref_units_key"
+        android:title="@string/pref_units_label" />
+
+    <PreferenceScreen
+        android:summary="Summary"
+        android:key="test"
+        android:persistent="false"
+        android:title="test_title">
+
+        <com.example.android.sunshine.app.preference.LocationPreference
+            android:key="test_location">
+
+        </com.example.android.sunshine.app.preference.LocationPreference>
+    </PreferenceScreen>
 
 </PreferenceScreen>

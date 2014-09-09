@@ -42,12 +42,15 @@ public class SettingsActivity extends PreferenceActivity
     // field, we'll ignore that change at start of the activity
     boolean mBindingPreference;
 
+    // Used to store the previous location
+    String location_previous;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Add 'general' preferences, defined in the XML file
         addPreferencesFromResource(R.xml.pref_general);
-
+        location_previous = Utility.getPreferredLocation(this);
         // For all preferences, attach an OnPreferenceChangeListener so the UI summary can be
         // updated when the preference changes.
         bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_location_key)));
@@ -85,8 +88,10 @@ public class SettingsActivity extends PreferenceActivity
 //                FetchWeatherTask weatherTask = new FetchWeatherTask(this);
 //                String location = value.toString();
 //                weatherTask.execute(location);
-                MySingleton instance = MySingleton.getInstance();
-                instance.setLocationChanged(true);
+                if(!location_previous.equalsIgnoreCase(value.toString())) {
+                    MySingleton instance = MySingleton.getInstance();
+                    instance.setLocationChanged(true);
+                }
             } else {
                 // notify code that weather may be impacted
                 getContentResolver().notifyChange(WeatherContract.WeatherEntry.CONTENT_URI, null);
