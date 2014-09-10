@@ -6,10 +6,12 @@ import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.SearchView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.android.sunshine.app.R;
 
@@ -18,8 +20,13 @@ import com.example.android.sunshine.app.R;
  */
 public class LocationPreference extends Preference {
 
+    private static final String LOG_TAG = LocationPreference.class.getSimpleName();
+
     private Context mContext;
     private SearchView mSearchView;
+
+    private String text = "lala";
+    private TextView textView;
 
     public LocationPreference(Context context) {
         this(context, null, 0);
@@ -44,10 +51,20 @@ public class LocationPreference extends Preference {
     @Override
     protected void onBindView(View view) {
         super.onBindView(view);
-        EditText editText = (EditText)view.findViewById(R.id.location_edit_view);
-        String str = editText.getText().toString();
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
-
-        setSummary(str);
+        textView = (TextView)view.findViewById(R.id.location_text_view);
+        text = textView.getText().toString();
+        Log.d(LOG_TAG, text);
+        notifyDependencyChange(true);
     }
+
+    public String getText() {
+        return text;
+    }
+
+    @Override
+    public String getKey() {
+        return super.getKey();
+    }
+
+
 }

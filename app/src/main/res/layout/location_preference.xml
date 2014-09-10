@@ -18,10 +18,11 @@
         android:layout_height="wrap_content"
         android:text="Summary" />
 
-    <EditText
-        android:id="@+id/location_edit_view"
+    <TextView
+        android:id="@+id/location_text_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="vmware"/>
 
     <android.support.v7.widget.SearchView
         android:id="@+id/location_search_view"
