@@ -1,8 +1,10 @@
 package com.example.android.sunshine.app.preference;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.Preference;
+import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.SearchView;
 import android.util.AttributeSet;
@@ -13,7 +15,9 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.android.sunshine.app.LocationSelectActivity;
 import com.example.android.sunshine.app.R;
+import com.example.android.sunshine.app.SettingsActivity;
 
 /**
  * Created by lee on 9/9/14.
@@ -23,10 +27,7 @@ public class LocationPreference extends Preference {
     private static final String LOG_TAG = LocationPreference.class.getSimpleName();
 
     private Context mContext;
-    private SearchView mSearchView;
-
-    private String text = "lala";
-    private TextView textView;
+    private PreferenceActivity parent;
 
     public LocationPreference(Context context) {
         this(context, null, 0);
@@ -51,20 +52,16 @@ public class LocationPreference extends Preference {
     @Override
     protected void onBindView(View view) {
         super.onBindView(view);
-        textView = (TextView)view.findViewById(R.id.location_text_view);
-        text = textView.getText().toString();
-        Log.d(LOG_TAG, text);
-        notifyDependencyChange(true);
-    }
-
-    public String getText() {
-        return text;
     }
 
     @Override
-    public String getKey() {
-        return super.getKey();
+    protected void onClick() {
+        Intent intent = new Intent(parent, LocationSelectActivity.class);
+        parent.startActivityForResult(intent, SettingsActivity.SELECT_LOCATION_REQUEST);
     }
 
+    public void setActivity(PreferenceActivity parent){
+        this.parent = parent;
+    }
 
 }

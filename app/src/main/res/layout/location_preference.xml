@@ -1,37 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:minHeight="?android:attr/listPreferredItemHeight"
+    android:paddingRight="?android:attr/scrollbarSize">
 
-    <TextView
-        android:id="@android:id/title"
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Title" />
+        android:layout_marginBottom="6dip"
+        android:layout_marginLeft="15dip"
+        android:layout_marginRight="6dip"
+        android:layout_marginTop="6dip"
+        android:layout_weight="1">
 
-    <TextView
-        android:id="@android:id/summary"
+        <TextView
+            android:id="@+android:id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:fadingEdge="horizontal"
+            android:singleLine="true"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#475ad7"
+            android:text="Location"/>
+
+        <TextView
+            android:id="@+android:id/summary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@android:id/title"
+            android:layout_below="@android:id/title"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#5ad747"
+            android:text="Beijing"/>
+
+    </RelativeLayout>
+
+    <!-- Preference should place its actual preference widget here. -->
+    <LinearLayout
+        android:id="@+android:id/widget_frame"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Summary" />
-
-    <TextView
-        android:id="@+id/location_text_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="vmware"/>
-
-    <android.support.v7.widget.SearchView
-        android:id="@+id/location_search_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <ListView
-        android:id="@+id/location_search_list_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="vertical" />
 
 </LinearLayout>

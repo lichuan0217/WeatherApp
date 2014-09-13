@@ -4,15 +4,16 @@
 
     <!-- This permission is necessary in order for Sunshine to perform network access. -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
+        android:name=".application.SunshineApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
-        android:name=".application.SunshineApplication">
+        android:theme="@style/AppTheme" >
         <activity
-            android:name="com.example.android.sunshine.app.MainActivity"
+            android:name=".MainActivity"
             android:theme="@style/ForecastTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,26 +22,36 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".DetailActivity"
             android:label="@string/title_activity_detail"
-            android:name="com.example.android.sunshine.app.DetailActivity"
-            android:parentActivityName="com.example.android.sunshine.app.MainActivity" >
+            android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.android.sunshine.app.MainActivity" />
         </activity>
         <activity
+            android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:name="com.example.android.sunshine.app.SettingsActivity"
-            android:parentActivityName="com.example.android.sunshine.app.MainActivity" >
+            android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.android.sunshine.app.MainActivity" />
         </activity>
+
         <provider
-            android:authorities="com.example.android.sunshine.app"
-            android:name=".data.WeatherProvider" />
-        <service android:name=".service.SunshineService"/>
-        <receiver android:name=".service.SunshineService$AlarmReceiver" android:enabled="true"/>
+            android:name=".data.WeatherProvider"
+            android:authorities="com.example.android.sunshine.app" />
+
+        <service android:name=".service.SunshineService" />
+
+        <receiver
+            android:name=".service.SunshineService$AlarmReceiver"
+            android:enabled="true" />
+
+        <activity
+            android:name=".LocationSelectActivity"
+            android:label="@string/title_activity_location_select" >
+        </activity>
     </application>
 
 </manifest>

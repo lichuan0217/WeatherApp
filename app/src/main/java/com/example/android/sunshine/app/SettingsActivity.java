@@ -41,6 +41,7 @@ public class SettingsActivity extends PreferenceActivity
         implements Preference.OnPreferenceChangeListener {
 
     private static final String LOG_TAG = SettingsActivity.class.getSimpleName();
+    public static final int SELECT_LOCATION_REQUEST = 0;
 
     // since we use the preference change initially to populate the summary
     // field, we'll ignore that change at start of the activity
@@ -48,8 +49,7 @@ public class SettingsActivity extends PreferenceActivity
 
     // Used to store the previous location
     String location_previous;
-
-    String location_preference_str = "haha";
+    LocationPreference locationPreference;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,12 +57,14 @@ public class SettingsActivity extends PreferenceActivity
         // Add 'general' preferences, defined in the XML file
         addPreferencesFromResource(R.xml.pref_general);
         location_previous = Utility.getPreferredLocation(this);
+
+        locationPreference = (LocationPreference)findPreference("location_select");
+        locationPreference.setActivity(this);
+
         // For all preferences, attach an OnPreferenceChangeListener so the UI summary can be
         // updated when the preference changes.
         bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_location_key)));
         bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_units_key)));
-        bindPreferenceSummaryToValue(findPreference("test_location"));
-        bindPreferenceSummaryToValue(findPreference("test"));
     }
 
     /**
@@ -116,13 +118,6 @@ public class SettingsActivity extends PreferenceActivity
             if (prefIndex >= 0) {
                 preference.setSummary(listPreference.getEntries()[prefIndex]);
             }
-        } else if (preference instanceof LocationPreference) {
-            LocationPreference location_preference = (LocationPreference) preference;
-            location_preference_str = location_preference.getText();
-            Log.d(LOG_TAG, "location Preference : " + location_preference_str);
-        } else if (preference.getKey().equals("test")) {
-            Log.d(LOG_TAG, "Set Summary");
-            preference.setSummary(location_preference_str);
         } else {
             // For other preferences, set the summary to the value's simple string representation.
             preference.setSummary(stringValue);
@@ -134,5 +129,13 @@ public class SettingsActivity extends PreferenceActivity
     @Override
     public Intent getParentActivityIntent() {
         return super.getParentActivityIntent().addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == RESULT_OK && requestCode == SELECT_LOCATION_REQUEST){
+            String location = data.getStringExtra(LocationSelectActivity.LOCATION_SELECTED);
+            locationPreference.setSummary(location);
+        }
     }
 }
