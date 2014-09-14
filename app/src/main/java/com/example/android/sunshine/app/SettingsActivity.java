@@ -16,7 +16,10 @@
 package com.example.android.sunshine.app;
 
 import android.annotation.TargetApi;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.ListPreference;
@@ -28,6 +31,11 @@ import android.util.Log;
 import com.example.android.sunshine.app.application.MySingleton;
 import com.example.android.sunshine.app.data.WeatherContract;
 import com.example.android.sunshine.app.preference.LocationPreference;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings.
@@ -65,6 +73,27 @@ public class SettingsActivity extends PreferenceActivity
         // updated when the preference changes.
         bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_location_key)));
         bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_units_key)));
+
+        // Load location data from raw file
+        MySingleton instance = MySingleton.getInstance();
+        if(!instance.isLocationSelectionDataLoaded()){
+            ContentResolver cr = getContentResolver();
+            InputStream inputStream = getResources().openRawResource(R.raw.location_map);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            String cityName = null;
+            ContentValues cv = null;
+            try {
+                while((cityName = reader.readLine()) != null){
+                    cv = new ContentValues();
+                    cv.put(WeatherContract.LocationSelectionEntry.COLUMN_CITY_NAME, cityName);
+                    cr.insert(WeatherContract.LocationSelectionEntry.CONTENT_URI,cv);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            instance.setLocationSelectionDataLoaded(true);
+        }
     }
 
     /**

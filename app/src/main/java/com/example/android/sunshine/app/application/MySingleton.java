@@ -10,6 +10,7 @@ public class MySingleton {
     private boolean isDataLoaded;
     private boolean isFirstRun;
     private boolean isLocationChanged;
+    private boolean isLocationSelectionDataLoaded;
 
     public static void initInstance(){
 
@@ -26,6 +27,7 @@ public class MySingleton {
         isDataLoaded = false;
         isFirstRun = true;
         isLocationChanged = false;
+        isLocationSelectionDataLoaded = false;
     }
 
     public boolean isFirstRun() {
@@ -42,5 +44,13 @@ public class MySingleton {
 
     public void setLocationChanged(boolean isLocationChanged) {
         this.isLocationChanged = isLocationChanged;
+    }
+
+    public boolean isLocationSelectionDataLoaded() {
+        return isLocationSelectionDataLoaded;
+    }
+
+    public void setLocationSelectionDataLoaded(boolean isLocationSelectionDataLoaded) {
+        this.isLocationSelectionDataLoaded = isLocationSelectionDataLoaded;
     }
 }

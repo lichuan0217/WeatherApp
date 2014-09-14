@@ -29,6 +29,8 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.android.sunshine.app.data.WeatherContract;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -57,16 +59,20 @@ public class LocationSelectFragment extends ListFragment
         super.onActivityCreated(savedInstanceState);
         // Give some text to display if there is no data.  In a real
         // application this would come from a resource.
-        setEmptyText("No phone numbers");
+        setEmptyText("No Locations !");
 
         // We have a menu item to show in action bar.
         setHasOptionsMenu(true);
 
         // Create an empty adapter we will use to display the loaded data.
+//        mAdapter = new SimpleCursorAdapter(getActivity(),
+//                android.R.layout.simple_list_item_2, null,
+//                new String[] { ContactsContract.Contacts.DISPLAY_NAME, ContactsContract.Contacts.CONTACT_STATUS },
+//                new int[] { android.R.id.text1, android.R.id.text2 }, 0);
         mAdapter = new SimpleCursorAdapter(getActivity(),
-                android.R.layout.simple_list_item_2, null,
-                new String[] { ContactsContract.Contacts.DISPLAY_NAME, ContactsContract.Contacts.CONTACT_STATUS },
-                new int[] { android.R.id.text1, android.R.id.text2 }, 0);
+                android.R.layout.simple_list_item_1, null,
+                new String[] {WeatherContract.LocationSelectionEntry.COLUMN_CITY_NAME},
+                new int[] {android.R.id.text1}, 0);
         setListAdapter(mAdapter);
 
         // Prepare the loader.  Either re-connect with an existing one,
@@ -79,7 +85,7 @@ public class LocationSelectFragment extends ListFragment
         super.onListItemClick(l, v, position, id);
         Cursor cursor = mAdapter.getCursor();
         if(cursor != null && cursor.moveToPosition(position)){
-            int index = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
+            int index = cursor.getColumnIndex(WeatherContract.LocationSelectionEntry.COLUMN_CITY_NAME);
             String location = cursor.getString(index);
             ((Callback)getActivity()).onItemSelected(location);
         }
@@ -98,12 +104,9 @@ public class LocationSelectFragment extends ListFragment
 
     // These are the Contacts rows that we will retrieve.
     static final String[] CONTACTS_SUMMARY_PROJECTION = new String[] {
-            ContactsContract.Contacts._ID,
-            ContactsContract.Contacts.DISPLAY_NAME,
-            ContactsContract.Contacts.CONTACT_STATUS,
-            ContactsContract.Contacts.CONTACT_PRESENCE,
-            ContactsContract.Contacts.PHOTO_ID,
-            ContactsContract.Contacts.LOOKUP_KEY,
+            WeatherContract.LocationSelectionEntry.TABLE_NAME + "." +
+                    WeatherContract.LocationSelectionEntry._ID,
+            WeatherContract.LocationSelectionEntry.COLUMN_CITY_NAME
     };
 
     @Override
@@ -113,21 +116,25 @@ public class LocationSelectFragment extends ListFragment
         // First, pick the base URI to use depending on whether we are
         // currently filtering.
         Uri baseUri;
-        if (mCurFilter != null) {
-            baseUri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_FILTER_URI,
-                    Uri.encode(mCurFilter));
-        } else {
-            baseUri = ContactsContract.Contacts.CONTENT_URI;
-        }
+//        if (mCurFilter != null) {
+//            baseUri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_FILTER_URI,
+//                    Uri.encode(mCurFilter));
+//        } else {
+//            baseUri = ContactsContract.Contacts.CONTENT_URI;
+//        }
+//
+        baseUri = WeatherContract.LocationSelectionEntry.CONTENT_URI;
 
         // Now create and return a CursorLoader that will take care of
         // creating a Cursor for the data being displayed.
         String select = "((" + ContactsContract.Contacts.DISPLAY_NAME + " NOTNULL) AND ("
                 + ContactsContract.Contacts.HAS_PHONE_NUMBER + "=1) AND ("
                 + ContactsContract.Contacts.DISPLAY_NAME + " != '' ))";
+//        return new CursorLoader(getActivity(), baseUri,
+//                CONTACTS_SUMMARY_PROJECTION, select, null,
+//                ContactsContract.Contacts.DISPLAY_NAME + " COLLATE LOCALIZED ASC");
         return new CursorLoader(getActivity(), baseUri,
-                CONTACTS_SUMMARY_PROJECTION, select, null,
-                ContactsContract.Contacts.DISPLAY_NAME + " COLLATE LOCALIZED ASC");
+                CONTACTS_SUMMARY_PROJECTION, null, null,null);
     }
 
     @Override

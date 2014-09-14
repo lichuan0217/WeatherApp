@@ -45,6 +45,7 @@ public class WeatherContract {
     // At least, let's hope not.  Don't be that dev, reader.  Don't be that dev.
     public static final String PATH_WEATHER = "weather";
     public static final String PATH_LOCATION = "location";
+    public static final String PATH_LOCATION_SELECTION = "location_selection";
 
     // Format used for storing dates in the database.  ALso used for converting those strings
     // back into date objects for comparison/processing.
@@ -74,6 +75,24 @@ public class WeatherContract {
         } catch ( ParseException e ) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public static final class LocationSelectionEntry implements BaseColumns{
+        public static final Uri CONTENT_URI =
+                BASE_CONTENT_URI.buildUpon().appendPath(PATH_LOCATION_SELECTION).build();
+
+        public static final String CONTENT_TYPE =
+                "vnd.android.cursor.dir/" + CONTENT_AUTHORITY + "/" + PATH_LOCATION_SELECTION;
+        public static final String CONTENT_ITEM_TYPE =
+                "vnd.android.cursor.item/" + CONTENT_AUTHORITY + "/" + PATH_LOCATION_SELECTION;
+
+        public static final String TABLE_NAME = "location_selection";
+
+        public static final String COLUMN_CITY_NAME = "city_name";
+
+        public static Uri buildLocationSelectionUri(long id){
+            return ContentUris.withAppendedId(CONTENT_URI, id);
         }
     }
 

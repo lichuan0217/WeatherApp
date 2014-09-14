@@ -39,6 +39,9 @@ import android.widget.TextView;
 import com.example.android.sunshine.app.data.WeatherContract;
 import com.example.android.sunshine.app.data.WeatherContract.WeatherEntry;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * A placeholder fragment containing a simple view.
  */
@@ -46,13 +49,15 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
     private static final String LOG_TAG = DetailFragment.class.getSimpleName();
 
-    private static final String FORECAST_SHARE_HASHTAG = " #SunshineApp";
+    private static final String FORECAST_SHARE_HASHTAG = " #SimpleWeatherApp";
 
     private static final String LOCATION_KEY = "location";
 
     private String mForecastStr;
     private String mLocation;
     private String mDateStr;
+
+//    private Map<String, String> map;
 
     private static final int DETAIL_LOADER = 0;
 
@@ -91,6 +96,15 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         outState.putString(LOCATION_KEY, mLocation);
         super.onSaveInstanceState(outState);
     }
+
+//    @Override
+//    public void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        map = new HashMap<String, String>();
+//        map.put("Rain", "小雨");
+//        map.put("Clouds","多云");
+//        map.put("Clear","晴天");
+//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
