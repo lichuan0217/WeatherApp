@@ -37,6 +37,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import me.imid.swipebacklayout.lib.SwipeBackLayout;
+import me.imid.swipebacklayout.lib.app.SwipeBackActivityBase;
+import me.imid.swipebacklayout.lib.app.SwipeBackActivityHelper;
+import me.imid.swipebacklayout.lib.app.SwipeBackPreferenceActivity;
+
 /**
  * A {@link PreferenceActivity} that presents a set of application settings.
  * <p/>
@@ -45,7 +50,7 @@ import java.io.InputStreamReader;
  * href="http://developer.android.com/guide/topics/ui/settings.html">Settings
  * API Guide</a> for more information on developing a Settings UI.
  */
-public class SettingsActivity extends PreferenceActivity
+public class SettingsActivity extends SwipeBackPreferenceActivity
         implements Preference.OnPreferenceChangeListener {
 
     private static final String LOG_TAG = SettingsActivity.class.getSimpleName();
@@ -59,9 +64,15 @@ public class SettingsActivity extends PreferenceActivity
     String location_previous;
     LocationPreference locationPreference;
 
+    private SwipeBackLayout swipeBackLayout;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        swipeBackLayout = getSwipeBackLayout();
+        swipeBackLayout.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
+
         // Add 'general' preferences, defined in the XML file
         addPreferencesFromResource(R.xml.pref_general);
         location_previous = Utility.getPreferredLocation(this);
@@ -167,4 +178,5 @@ public class SettingsActivity extends PreferenceActivity
             locationPreference.setSummary(location);
         }
     }
+
 }

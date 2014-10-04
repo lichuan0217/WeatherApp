@@ -5,6 +5,11 @@
         <item name="actionBarStyle">@style/ActionBar.Solid.Sunshine</item>
     </style>
 
+    <!-- setting theme for SwipeBackLayout -->
+    <style name="Translucent" parent="AppTheme">
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
     <style name="ForecastTheme" parent="AppTheme">
         <item name="actionBarStyle">@style/ActionBar.Solid.Sunshine.NoTitle</item>
     </style>

@@ -10,26 +10,31 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name" >
-        </activity>
-        <activity
-            android:name=".MyActivity"
-            android:label="@string/title_activity_my" >
-
-        </activity>
-        <activity
-            android:name=".communication.ComActivity"
-            android:label="@string/title_activity_com" >
-        </activity>
-        <activity
-            android:name=".listviewholder.MultiListActivity"
-            android:label="@string/title_activity_multi_list" >
+            android:name="com.example.featuretest.demo.MainActivity"
+            android:label="@string/app_name"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="com.example.featuretest.demo.MyActivity"
+            android:label="@string/title_activity_my" >
+        </activity>
+        <activity
+            android:name="com.example.featuretest.demo.communication.ComActivity"
+            android:label="@string/title_activity_com" >
+        </activity>
+        <activity
+            android:name="com.example.featuretest.demo.listviewholder.MultiListActivity"
+            android:label="@string/title_activity_multi_list" >
+        </activity>
+        <activity
+            android:name="com.example.featuretest.demo.listviewholder.BackActivity"
+            android:label="@string/title_activity_back"
+            android:theme="@style/Transparent">
         </activity>
     </application>
 

@@ -1,28 +1,31 @@
-package com.example.featuretest.demo;
+package com.example.featuretest.demo.listviewholder;
 
-import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+import com.example.featuretest.demo.R;
 
-import com.example.featuretest.demo.listviewholder.BackActivity;
+import me.imid.swipebacklayout.lib.SwipeBackLayout;
+import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
+public class BackActivity extends SwipeBackActivity {
 
-public class MainActivity extends ActionBarActivity {
+//    private SwipeBackLayout swipeBackLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_back);
+//        swipeBackLayout = getSwipeBackLayout();
+//        swipeBackLayout.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.back, menu);
         return true;
     }
 
@@ -32,14 +35,12 @@ public class MainActivity extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
-        return super.onOptionsItemSelected(item);
-    }
 
-    public void GoClick(View view){
-        Intent intent = new Intent(this, BackActivity.class);
-        startActivity(intent);
+        return super.onOptionsItemSelected(item);
     }
 }
