@@ -9,6 +9,7 @@ The code mainly comes from the the Udacity course [Developing Android Apps: Andr
 
 * [SwipeRefreshLayout](http://stormzhang.github.io/android/2014/03/29/android-swiperefreshlayout/)
 * [SwipeBackLayout](https://github.com/Issacw0ng/SwipeBackLayout)
+* [android-async-http](http://loopj.com/android-async-http/)
 
 ## Contact
 Contact me if you have any advices. lichuan0217@gmail.com
