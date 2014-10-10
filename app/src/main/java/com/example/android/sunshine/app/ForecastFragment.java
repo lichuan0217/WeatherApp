@@ -40,6 +40,7 @@ import com.example.android.sunshine.app.application.MySingleton;
 import com.example.android.sunshine.app.data.WeatherContract;
 import com.example.android.sunshine.app.data.WeatherContract.LocationEntry;
 import com.example.android.sunshine.app.data.WeatherContract.WeatherEntry;
+import com.example.android.sunshine.app.http.FetchWeather;
 import com.example.android.sunshine.app.service.SunshineService;
 
 import java.util.Date;
@@ -196,7 +197,12 @@ public class ForecastFragment extends Fragment implements LoaderCallbacks<Cursor
 
     private void updateWeather() {
         String location = Utility.getPreferredLocation(getActivity());
-        //Using AsyncTask
+
+        // Using android-async-http
+//        FetchWeather task = new FetchWeather(getActivity(), refreshLayout);
+//        task.fetchWeather(location);
+
+        // Using AsyncTask
         new FetchWeatherTask(getActivity(), refreshLayout).execute(location);
 
         //Using IntentService
