@@ -19,9 +19,9 @@
 
 
     <com.example.android.sunshine.app.preference.LocationPreference
-        android:key="location_select"
-        android:title="Location"
-        android:summary="Beijing"/>
+        android:key="@string/pref_location_select_key"
+        android:title="@string/pref_location_select_label"
+        android:defaultValue="@string/pref_location_default"/>
 
 
 </PreferenceScreen>

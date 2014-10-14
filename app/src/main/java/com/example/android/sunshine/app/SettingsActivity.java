@@ -18,7 +18,9 @@ package com.example.android.sunshine.app;
 import android.annotation.TargetApi;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -56,6 +58,10 @@ public class SettingsActivity extends SwipeBackPreferenceActivity
     private static final String LOG_TAG = SettingsActivity.class.getSimpleName();
     public static final int SELECT_LOCATION_REQUEST = 0;
 
+    // Used to Load the location name from raw file
+    private static final String PRE_LOCATION_KEY = "LOCATION_LOAD_KEY";
+    private SharedPreferences sharedPreferences;
+
     // since we use the preference change initially to populate the summary
     // field, we'll ignore that change at start of the activity
     boolean mBindingPreference;
@@ -73,37 +79,39 @@ public class SettingsActivity extends SwipeBackPreferenceActivity
         swipeBackLayout = getSwipeBackLayout();
         swipeBackLayout.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
 
+        sharedPreferences = getPreferences(Context.MODE_PRIVATE);
+
         // Add 'general' preferences, defined in the XML file
         addPreferencesFromResource(R.xml.pref_general);
         location_previous = Utility.getPreferredLocation(this);
 
-        locationPreference = (LocationPreference)findPreference("location_select");
+        locationPreference = (LocationPreference) findPreference(
+                getString(R.string.pref_location_select_key));
         locationPreference.setActivity(this);
 
         // For all preferences, attach an OnPreferenceChangeListener so the UI summary can be
         // updated when the preference changes.
         bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_location_key)));
         bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_units_key)));
+        bindPreferenceSummaryToValue(locationPreference);
 
         // Load location data from raw file
-        MySingleton instance = MySingleton.getInstance();
-        if(!instance.isLocationSelectionDataLoaded()){
+        if (!isLocationLoaded()) {
             ContentResolver cr = getContentResolver();
             InputStream inputStream = getResources().openRawResource(R.raw.location_map);
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             String cityName = null;
             ContentValues cv = null;
             try {
-                while((cityName = reader.readLine()) != null){
+                while ((cityName = reader.readLine()) != null) {
                     cv = new ContentValues();
                     cv.put(WeatherContract.LocationSelectionEntry.COLUMN_CITY_NAME, cityName);
-                    cr.insert(WeatherContract.LocationSelectionEntry.CONTENT_URI,cv);
+                    cr.insert(WeatherContract.LocationSelectionEntry.CONTENT_URI, cv);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-            instance.setLocationSelectionDataLoaded(true);
+            setLocationLoaded();
         }
     }
 
@@ -135,9 +143,6 @@ public class SettingsActivity extends SwipeBackPreferenceActivity
         // are we starting the preference activity?
         if (!mBindingPreference) {
             if (preference.getKey().equals(getString(R.string.pref_location_key))) {
-//                FetchWeatherTask weatherTask = new FetchWeatherTask(this);
-//                String location = value.toString();
-//                weatherTask.execute(location);
                 if (!location_previous.equalsIgnoreCase(value.toString())) {
                     MySingleton instance = MySingleton.getInstance();
                     instance.setLocationChanged(true);
@@ -173,10 +178,28 @@ public class SettingsActivity extends SwipeBackPreferenceActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == RESULT_OK && requestCode == SELECT_LOCATION_REQUEST){
+        if (resultCode == RESULT_OK && requestCode == SELECT_LOCATION_REQUEST) {
             String location = data.getStringExtra(LocationSelectActivity.LOCATION_SELECTED);
-            locationPreference.setSummary(location);
+//            locationPreference.setSummary(location);
+            SharedPreferences.Editor editor = locationPreference.getEditor();
+            editor.putString(getString(R.string.pref_location_select_key), location);
         }
+    }
+
+    // Check the preference whether the location is loaded
+    private boolean isLocationLoaded() {
+        int defaultValue = 0;
+        int value = sharedPreferences.getInt(PRE_LOCATION_KEY, defaultValue);
+        if (value == defaultValue)
+            return false;
+        return true;
+    }
+
+    // Set the preference
+    private void setLocationLoaded() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(PRE_LOCATION_KEY, 1);
+        editor.commit();
     }
 
 }

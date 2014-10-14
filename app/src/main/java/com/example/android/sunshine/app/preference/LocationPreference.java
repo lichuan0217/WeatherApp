@@ -42,12 +42,17 @@ public class LocationPreference extends Preference {
         this(context, attrs, 0);
     }
 
-    @Override
-    protected View onCreateView(ViewGroup parent) {
-        LayoutInflater inflater =
-                (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        return inflater.inflate(R.layout.location_preference, parent, false);
-    }
+
+    // We will not custom the view of the preference here.
+    /**
+     *  Use to custom the view of the preference.
+     */
+//    @Override
+//    protected View onCreateView(ViewGroup parent) {
+//        LayoutInflater inflater =
+//                (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//        return inflater.inflate(R.layout.location_preference, parent, false);
+//    }
 
     @Override
     protected void onBindView(View view) {

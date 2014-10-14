@@ -30,6 +30,9 @@
     <!-- Label for imperial option in temperature unit preference [CHAR LIMIT=25] -->
     <string name="pref_units_label_imperial">华氏</string>
 
+    <!-- Label for the location select preference -->
+    <string name="pref_location_select_label">地点</string>
+
     <!-- Windspeed formats -->
     <!-- Wind in mph [CHAR LIMIT=25] -->
     <string name="format_wind_mph">

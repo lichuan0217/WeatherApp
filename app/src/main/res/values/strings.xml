@@ -28,11 +28,18 @@
     <!-- Key name for storing location in SharedPreferences [CHAR LIMIT=NONE] -->
     <string name="pref_location_key" translatable="false">location</string>
 
-    <!-- Default postal code for location preference [CHAR LIMIT=NONE] -->
+    <!-- Default name for location preference [CHAR LIMIT=NONE] -->
     <string name="pref_location_default" translatable="false">Beijing</string>
 
     <!-- Strings related to Notification preference -->
     <string name="pref_last_sync">last_sync</string>
+
+    <!-- Label for the location select preference -->
+    <string name="pref_location_select_label">Location</string>
+    <!-- Key name for storing selected location in SharedPreferences-->
+    <string name="pref_location_select_key" translatable="false">location_select</string>
+    <!-- Default name for selected location-->
+    <string name="pref_location_select_default" translatable="false">Beijing</string>
 
     <!-- Strings for formatting weather-related data -->
 
