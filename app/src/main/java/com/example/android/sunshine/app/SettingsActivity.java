@@ -79,7 +79,6 @@ public class SettingsActivity extends SwipeBackPreferenceActivity
         swipeBackLayout = getSwipeBackLayout();
         swipeBackLayout.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
 
-//        sharedPreferences = getPreferences(Context.MODE_PRIVATE);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         // Add 'general' preferences, defined in the XML file
@@ -89,14 +88,6 @@ public class SettingsActivity extends SwipeBackPreferenceActivity
         locationPreference = (LocationPreference) findPreference(
                 getString(R.string.pref_location_select_key));
         locationPreference.setActivity(this);
-//        locationPreference.setDefaultValue(getString(R.string.pref_location_select_default));
-
-        Log.d(LOG_TAG, sharedPreferences.getString("location_select", "foo1"));
-        Log.d(LOG_TAG,
-                PreferenceManager.getDefaultSharedPreferences(this).getString(
-                getString(R.string.pref_location_select_key), "bar1"
-                )
-        );
 
         // For all preferences, attach an OnPreferenceChangeListener so the UI summary can be
         // updated when the preference changes.
@@ -134,8 +125,6 @@ public class SettingsActivity extends SwipeBackPreferenceActivity
 
         // Set the listener to watch for value changes.
         preference.setOnPreferenceChangeListener(this);
-        Log.d(LOG_TAG, preference.getKey());
-        Log.d(LOG_TAG, PreferenceManager.getDefaultSharedPreferences(preference.getContext()).getString(preference.getKey(), "haha"));
 
         // Trigger the listener immediately with the preference's
         // current value.
@@ -196,6 +185,7 @@ public class SettingsActivity extends SwipeBackPreferenceActivity
             SharedPreferences.Editor editor = locationPreference.getEditor();
             editor.putString(getString(R.string.pref_location_select_key), location);
             editor.commit();
+            onPreferenceChange(locationPreference, location);
             Log.d(LOG_TAG, sharedPreferences.getString("location_select", "foo"));
         }
     }
