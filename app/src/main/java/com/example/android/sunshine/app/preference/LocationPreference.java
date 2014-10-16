@@ -3,6 +3,7 @@ package com.example.android.sunshine.app.preference;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.TypedArray;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
@@ -36,6 +37,7 @@ public class LocationPreference extends Preference {
     public LocationPreference(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         mContext = context;
+//        setDefaultValue(getContext().getString(R.string.pref_location_select_default));
     }
 
     public LocationPreference(Context context, AttributeSet attrs) {
@@ -69,4 +71,17 @@ public class LocationPreference extends Preference {
         this.parent = parent;
     }
 
+    @Override
+    protected void onSetInitialValue(boolean restorePersistedValue, Object defaultValue) {
+//        super.onSetInitialValue(restorePersistedValue, defaultValue);
+        String temp = restorePersistedValue ? getPersistedString("Bala") : (String)defaultValue;
+        if(!restorePersistedValue)
+            persistString(temp);
+
+    }
+
+    @Override
+    protected Object onGetDefaultValue(TypedArray a, int index) {
+        return a.getString(index);
+    }
 }
